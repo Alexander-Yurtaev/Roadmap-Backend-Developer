@@ -79,13 +79,28 @@ partial class Program
 
     private static void ListTasks()
     {
-        List<TaskEntity> tasks = LoadAllTasks();
+        Console.WriteLine(new string('-', 98));
+
+        Console.WriteLine("| {0,-3} | {1,-35} | {2,8} | {3,18} | {4,18} |",
+            "Id", "Description", "Status", "CreateAt", "UpdateAt");
+
+        Console.WriteLine(new string('-', 98));
+
+        List <TaskEntity> tasks = LoadAllTasks();
         if (tasks.Count == 0)
         {
-            Console.WriteLine("Tasks are not found.");
+            Console.WriteLine("| {0, 82} |", "Tasks are not found.");
             return;
         }
 
-        // Output tasks.
+        foreach (TaskEntity entity in tasks)
+        {
+            Console.WriteLine("| {0,-3} | {1,-35} | {2,-8} | {3,18} | {4,18} |",
+                entity.Id, entity.Description, entity.Status, 
+                entity.CreateAt.ToString("dd/MM/yyyy hh:mm"),
+                entity.UpdateAt.ToString("dd/MM/yyyy hh:mm"));
+        }
+
+        Console.WriteLine(new string('-', 98));
     }
 }
