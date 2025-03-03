@@ -95,10 +95,8 @@ partial class Program
 
         foreach (TaskEntity entity in tasks)
         {
-            Console.WriteLine("| {0,-3} | {1,-35} | {2,-8} | {3,18} | {4,18} |",
-                entity.Id, entity.Description, entity.Status, 
-                entity.CreateAt.ToString("dd/MM/yyyy hh:mm"),
-                entity.UpdateAt.ToString("dd/MM/yyyy hh:mm"));
+            Console.WriteLine("| {0,-3} | {1,-35} | {2,-8} | {3,18:dd/MM/yyyy hh:mm} | {4,18:dd/MM/yyyy hh:mm} |",
+                entity.Id, entity.Description, entity.Status, entity.CreateAt, entity.UpdateAt);
         }
 
         Console.WriteLine(new string('-', 98));
