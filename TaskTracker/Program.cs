@@ -27,12 +27,22 @@ switch (command)
 
         DeleteTask(id);
         break;
-    //    case "mark-in-progress":
-    //        MarkInProgressTask();
-    //        break;
-    //    case "mark-done":
-    //        MarkDoneTask();
-    //        break;
+    case "mark-in-progress":
+        if (!int.TryParse(arg1, out id))
+        {
+            throw new ArgumentException(nameof(id));
+        }
+
+        MarkInProgressTask(id);
+        break;
+    case "mark-done":
+        if (!int.TryParse(arg1, out id))
+        {
+            throw new ArgumentException(nameof(id));
+        }
+
+        MarkDoneTask(id);
+        break;
     case "list":
         ListTasks();
         break;

@@ -1,4 +1,5 @@
 ﻿using TaskTracker;
+using TaskStatus = TaskTracker.TaskStatus;
 
 partial class Program
 {
@@ -67,14 +68,31 @@ partial class Program
         SaveJsonData(tasks);
     }
 
-    private static void MarkInProgressTask()
+    private static void MarkInProgressTask(int id)
     {
-
+        SetTaskStatus(id, TaskStatus.InProcess);
     }
 
-    private static void MarkDoneTask()
+    private static void MarkDoneTask(int id)
     {
+        SetTaskStatus(id, TaskStatus.Done);
+    }
 
+    private static void SetTaskStatus(int id, TaskStatus status)
+    {
+        List<TaskEntity> tasks = LoadAllTasks();
+        TaskEntity? task = tasks.FirstOrDefault(t => t.Id == id);
+
+        if (task == null)
+        {
+            Console.WriteLine($"Task was not found (ID: {id});");
+            return;
+        }
+
+        task.Status = status;
+        task.UpdateAt = DateTime.Now;
+
+        SaveJsonData(tasks);
     }
 
     private static void ListTasks()
