@@ -81,11 +81,7 @@ partial class Program
 
         Console.WriteLine(new string('-', 98));
 
-        List <TaskEntity> tasks = repository.LoadAllTasks();
-        if (status is not null)
-        {
-            tasks = tasks.Where(t => t.Status == status).ToList();
-        }
+        List <TaskEntity> tasks = repository.LoadAllTasks(status);
 
         if (tasks.Count == 0)
         {

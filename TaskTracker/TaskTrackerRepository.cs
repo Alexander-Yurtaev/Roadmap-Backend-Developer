@@ -7,7 +7,7 @@ public class TaskTrackerRepository : ITaskTrackerRepository
     private const string FileName = "task_tracker.json";
     private readonly string _filePath = Path.Combine(Environment.CurrentDirectory, FileName);
 
-    public List<TaskEntity> LoadAllTasks()
+    public List<TaskEntity> LoadAllTasks(TaskStatus? status = null)
     {
         if (!File.Exists(_filePath))
         {
@@ -16,6 +16,10 @@ public class TaskTrackerRepository : ITaskTrackerRepository
 
         var jsonData = File.ReadAllText(_filePath);
         var tasks = JsonConvert.DeserializeObject<List<TaskEntity>>(jsonData) ?? [];
+        if (status is not null)
+        {
+            tasks = tasks.Where(t => t.Status == status).ToList();
+        }
 
         return tasks;
     }

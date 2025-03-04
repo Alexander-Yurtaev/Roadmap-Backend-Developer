@@ -17,7 +17,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
 
         // Act
@@ -32,7 +32,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
 
         // Act
@@ -48,7 +48,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         int id = Program.AddTask("Test Task", moqRepository.Object);
 
@@ -67,7 +67,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         int wrongId = 1000;
 
@@ -85,7 +85,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         int id = Program.AddTask("Delete Test Task", moqRepository.Object);
 
@@ -103,7 +103,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         const int wrongId = 1000;
 
@@ -121,7 +121,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         int id = Program.AddTask("Test Task", moqRepository.Object);
 
@@ -140,7 +140,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         const int wrongId = 1000;
 
@@ -158,7 +158,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         int id = Program.AddTask("Test Task", moqRepository.Object);
 
@@ -177,7 +177,7 @@ public class ProgramCommandsTests
     {
         // Arrange
         var moqRepository = new Mock<ITaskTrackerRepository>();
-        moqRepository.Setup(r => r.LoadAllTasks()).Returns(_mockTaskEntities.Object);
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
         moqRepository.Setup(r => r.SaveJsonData(_mockTaskEntities.Object));
         const int wrongId = 1000;
 
@@ -188,5 +188,20 @@ public class ProgramCommandsTests
 
         // Assert
         Assert.That(task, Is.Null);
+    }
+
+    [Test]
+    [TestCase(null, TestName = "ListTasks - Null")]
+    [TestCase(TaskStatus.Done, TestName = "ListTasks - Done")]
+    [TestCase(TaskStatus.InProcess, TestName = "ListTasks - In process")]
+    public void Commands_ListTasks(TaskStatus? status)
+    {
+        // Arrange
+        var moqRepository = new Mock<ITaskTrackerRepository>();
+        moqRepository.Setup(r => r.LoadAllTasks(It.IsAny<TaskStatus?>())).Returns(_mockTaskEntities.Object);
+
+        // Act
+        // Assert
+        Assert.DoesNotThrow(() => moqRepository.Object.LoadAllTasks(status));
     }
 }
