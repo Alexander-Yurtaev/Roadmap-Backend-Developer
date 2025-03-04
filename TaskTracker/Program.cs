@@ -1,4 +1,5 @@
 ﻿using TaskTracker;
+using TaskStatus = TaskTracker.TaskStatus;
 
 var repository = new TaskTrackerRepository();
 
@@ -48,7 +49,13 @@ switch (command)
         MarkDoneTask(id, repository);
         break;
     case "list":
-        ListTasks(repository);
+        TaskStatus? status = null;
+        if (!string.IsNullOrEmpty(arg1))
+        {
+            status = Enum.Parse<TaskStatus>(ToUpperFirstLetter(arg1));
+        }
+
+        ListTasks(status, repository);
         break;
     default:
         Console.WriteLine("Unknown command.");

@@ -72,7 +72,7 @@ partial class Program
         repository.SaveJsonData(tasks);
     }
 
-    public static void ListTasks(ITaskTrackerRepository repository)
+    public static void ListTasks(TaskStatus? status, ITaskTrackerRepository repository)
     {
         Console.WriteLine(new string('-', 98));
 
@@ -82,6 +82,11 @@ partial class Program
         Console.WriteLine(new string('-', 98));
 
         List <TaskEntity> tasks = repository.LoadAllTasks();
+        if (status is not null)
+        {
+            tasks = tasks.Where(t => t.Status == status).ToList();
+        }
+
         if (tasks.Count == 0)
         {
             Console.WriteLine("| {0, 82} |", "Tasks are not found.");
