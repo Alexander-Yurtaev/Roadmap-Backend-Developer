@@ -1,4 +1,8 @@
-﻿var (command, arg1, arg2) = ParseArgs(args);
+﻿using TaskTracker;
+
+var repository = new TaskTrackerRepository();
+
+var (command, arg1, arg2) = ParseArgs(args);
 
 int id;
 
@@ -7,7 +11,7 @@ switch (command)
     case "add":
         ArgumentException.ThrowIfNullOrEmpty(arg1);
 
-        AddTask(arg1);
+        AddTask(arg1, repository);
         break;
     case "update":
         if (!int.TryParse(arg1, out id))
@@ -17,7 +21,7 @@ switch (command)
 
         ArgumentException.ThrowIfNullOrEmpty(arg2);
 
-        UpdateTask(id, arg2);
+        UpdateTask(id, arg2, repository);
         break;
     case "delete":
         if (!int.TryParse(arg1, out id))
@@ -25,7 +29,7 @@ switch (command)
             throw new ArgumentException(nameof(id));
         }
 
-        DeleteTask(id);
+        DeleteTask(id, repository);
         break;
     case "mark-in-progress":
         if (!int.TryParse(arg1, out id))
@@ -33,7 +37,7 @@ switch (command)
             throw new ArgumentException(nameof(id));
         }
 
-        MarkInProgressTask(id);
+        MarkInProgressTask(id, repository);
         break;
     case "mark-done":
         if (!int.TryParse(arg1, out id))
@@ -41,10 +45,10 @@ switch (command)
             throw new ArgumentException(nameof(id));
         }
 
-        MarkDoneTask(id);
+        MarkDoneTask(id, repository);
         break;
     case "list":
-        ListTasks();
+        ListTasks(repository);
         break;
     default:
         Console.WriteLine("Unknown command.");

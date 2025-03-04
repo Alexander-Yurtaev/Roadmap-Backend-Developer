@@ -1,34 +1,26 @@
-﻿using Newtonsoft.Json;
-using TaskTracker;
-
-public partial class Program
+﻿public partial class Program
 {
-    private static string GetFilePath()
+    public static (string command, string, string) ParseArgs(string[] args)
     {
-        var fileName = "task_tracker.json";
-        return Path.Combine(Environment.CurrentDirectory, fileName);
-    }
-
-    private static List<TaskEntity> LoadAllTasks()
-    {
-        string filePath = GetFilePath();
-        if (!File.Exists(filePath))
+        if (args.Length == 0)
         {
-            SaveJsonData(new List<TaskEntity>());
+            throw new ArgumentException("Args must have least one value.");
         }
 
-        var jsonData = File.ReadAllText(filePath);
-        List<TaskEntity> tasks = JsonConvert.DeserializeObject<List<TaskEntity>>(jsonData) ?? [];
+        string command = args[0];
+        string arg1 = string.Empty;
+        string arg2 = string.Empty;
 
-        return tasks;
-    }
+        if (args.Length > 1)
+        {
+            arg1 = args[1];
+        }
 
-    private static void SaveJsonData(List<TaskEntity> tasks)
-    {
-        string filePath = GetFilePath();
-        string jsonData = JsonConvert.SerializeObject(tasks);
+        if (args.Length > 2)
+        {
+            arg2 = args[2];
+        }
 
-        using var file = File.CreateText(filePath);
-        file.Write(jsonData);
+        return (command, arg1, arg2);
     }
 }

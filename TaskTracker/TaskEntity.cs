@@ -1,6 +1,6 @@
 ﻿namespace TaskTracker;
 
-class TaskEntity(int id, string description)
+public class TaskEntity(int id, string description)
 {
     public int Id { get; set; } = id;
     public string Description { get; set; } = description;
@@ -9,8 +9,7 @@ class TaskEntity(int id, string description)
     public DateTime UpdateAt { get; set; } = DateTime.Now;
 }
 
-
-enum TaskStatus
+public enum TaskStatus
 {
     Todo,
     InProcess,
