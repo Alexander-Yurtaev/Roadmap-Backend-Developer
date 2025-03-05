@@ -24,7 +24,7 @@ partial class Program
         }
 
         task.Description = description;
-        task.UpdateAt = DateTime.Now;
+        task.UpdateAt = DateTime.UtcNow;
 
         repository.SaveJsonData(tasks);
     }
@@ -67,7 +67,7 @@ partial class Program
         }
 
         task.Status = status;
-        task.UpdateAt = DateTime.Now;
+        task.UpdateAt = DateTime.UtcNow;
 
         repository.SaveJsonData(tasks);
     }
